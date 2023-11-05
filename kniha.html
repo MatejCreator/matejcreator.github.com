@@ -5,11 +5,11 @@
         <title>my Philosophy . Matej Palčo</title>
     </head>
     <body>
-        <p>
+        <p><span style="background-color: rgb(27, 146, 104);">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto explicabo doloribus nulla nesciunt! Aspernatur 
         possimus, consequuntur velit culpa autem omnis repellat rem eum ea est, voluptatem quam explicabo? Similique
         , suscipit.
-        </p>
+        </span></p>
 
         <audio controls>
             <source src="Fantasy Lute in My Veins.mp4" type="audio/mp4">
@@ -18,6 +18,18 @@
         <video width="500px" controls>
             <source src="Fantasy Lute in My Veins.mp4" type="video/mp4">
         </video>
+
+        <form action="index.php" method="post">
+            <label for="Username">Username:</label>
+            <input type="text" id="Username" required placeholder="Username"><br>
+
+            <label for="phone">Phone #:</label>
+            <input type="tel" id="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+
+            <br>
+            <input type="reset">
+            <input type="submit">
+        </form>
         
     </body>
 
