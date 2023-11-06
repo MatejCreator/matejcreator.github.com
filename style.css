@@ -1,3 +1,8 @@
 #main_name{
+    font-family: "Courier New", verdana;
     color: green;
+}
+#start {
+    border:3px solid hsl(120, 100%, 25%);
+    border-radius: 20px;
 }
