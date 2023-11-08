@@ -6,3 +6,12 @@
     border:3px solid hsl(120, 100%, 25%);
     border-radius: 20px;
 }
+#play_h1 {
+    text-shadow: 3px 3px 5px green, -5px -5px 5px greenyellow;
+}
+#box {
+    height: 450px;
+    width: 450px;
+    background-color: aliceblue;
+    box-shadow: 5px 5px 1px;
+}
