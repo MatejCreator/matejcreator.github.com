@@ -1,11 +1,39 @@
 body {
     text-align: center;
-    background-image: url(FantasyKnightHDWallpaper.jpg);
+    background-image: url();
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
 }
-a:visited {
-    color: green;
+.navbar{
+    display: flex;
+    justify-content: center;
+}
+.navbar ul{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+.navbar a{
+    color: black;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+.navbar li{
+    width: 100px;
+    margin: auto;
+    float: left;
+}
+#HI_IAM {
+    font-style: italic;
+    margin-bottom: 5px;
+}
+#main_H1 {
+    margin-top: 5px;
 }
