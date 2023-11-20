@@ -1,17 +1,11 @@
-#main_name{
-    font-family: "Courier New", verdana;
+body {
+    text-align: center;
+    background-image: url(FantasyKnightHDWallpaper.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+a:visited {
     color: green;
-}
-#start {
-    border:3px solid hsl(120, 100%, 25%);
-    border-radius: 20px;
-}
-#play_h1 {
-    text-shadow: 3px 3px 5px green, -5px -5px 5px greenyellow;
-}
-#box {
-    height: 450px;
-    width: 450px;
-    background-color: aliceblue;
-    box-shadow: 5px 5px 1px;
 }
