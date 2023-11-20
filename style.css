@@ -7,6 +7,7 @@ body {
     background-size: cover;
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 header {
     background-image: url(FantasyKnightHDWallpaper.jpg);
@@ -71,6 +72,42 @@ header {
     margin-top: 5px;
     font-size: 54px;
 }
+footer {
+    margin-top: 40px;
+    border-top: 2px  dotted;
+    padding: 60px;
+    height: auto;
+}
+#left_footer {
+    width: 50%;
+    float: left;
+    height: 150px;
+}
+#bottom_extra {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#bottom_credencial {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#bottom_credencial p {
+    color: rgb(191, 191, 191);
+    font-style: italic;
+}
+.navbar_bottom {
+    height: 150px;
+    float: right;
+    width: 50%;
+}
 .navbar_bottom ul{
     list-style-type: none;
+}
+.navbar_bottom li {
+    top: 10px;
 }
