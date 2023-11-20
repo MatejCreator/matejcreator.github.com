@@ -5,35 +5,72 @@ body {
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+header {
+    background-image: url(FantasyKnightHDWallpaper.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: transparent;
+    min-height: 0px;
+    background-attachment: fixed;
+    height: 800px;
+    width: 100%;
 }
 .navbar{
+    position: fixed;
     display: flex;
+    top: 0px;
+    left: 0px;
+    width: 100%;
     justify-content: center;
+    z-index: 1000;
 }
 .navbar ul{
+    border: 1px solid rgb(200, 255, 200);
+    padding: 6.5px;
+    border-radius: 30px;
+    background-color: rgb(200, 255, 200);
     list-style-type: none;
-    padding: 0px;
-    margin: 0px;
     overflow: hidden;
 }
 .navbar a{
-    color: black;
+    color: rgb(39, 39, 39);
     text-decoration: none;
-    padding: 15px;
+    padding: 10px;
     display: block;
     text-align: center;
-    border: 1px solid black;
+    border: 1px solid rgb(120, 255, 120);
     border-radius: 20px;
+    background-color: rgb(120, 255, 120);
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: bold;
 }
 .navbar li{
     width: 100px;
     margin: auto;
     float: left;
 }
+#Main_H1 {
+    height: 800px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
 #HI_IAM {
     font-style: italic;
     margin-bottom: 5px;
+    font-size: 26px;
 }
 #main_H1 {
     margin-top: 5px;
+    font-size: 54px;
+}
+.navbar_bottom ul{
+    list-style-type: none;
 }
