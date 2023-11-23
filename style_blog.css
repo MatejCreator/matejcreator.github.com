@@ -1,24 +1,32 @@
 body {
-    text-align: center;
-    background-image: url();
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    text-align: center;
 }
 header {
-    background-image: url(images/FantasyKnightHDWallpaper.jpg);
+    display: flex;
+    width: 100%;
+    height: 600px;
+    align-items: center;
+    justify-content: center;
+    top: 0px;
+    justify-content: center;
+    border-bottom: 1px dashed;
+    background-image: url(images/Torii_gate.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-color: transparent;
     min-height: 0px;
     background-attachment: fixed;
-    height: 800px;
-    width: 100%;
+}
+header h1 {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 54px;
+    color: rgb(255, 172, 19);
+
 }
 .navbar{
     position: fixed;
@@ -77,60 +85,7 @@ header {
 #home i:hover{
     color: rgb(95, 252, 95);
 }
-#Main_H1 {
-    height: 800px;
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-#HI_IAM {
-    font-style: italic;
-    margin-bottom: 5px;
-    font-size: 26px;
-}
-#main_H1 {
-    margin-top: 5px;
-    font-size: 54px;
-}
-footer {
-    margin-top: 40px;
-    border-top: 2px  dotted;
-    padding: 60px;
-    height: 100px;
-    background-color: rgb(101, 101, 101);
-}
-#left_footer {
-    width: 50%;
-    float: left;
-    height: 150px;
-}
-#bottom_extra {
-    height: 75px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-#bottom_credencial {
-    height: 75px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#bottom_credencial p {
-    color: rgb(191, 191, 191);
-    font-style: italic;
-}
-.navbar_bottom {
-    height: 150px;
-    float: right;
-    width: 50%;
-}
-.navbar_bottom ul{
-    list-style-type: none;
-}
-.navbar_bottom li {
-    top: 10px;
+main {
+    padding: 20%;
+    text-align: left;
 }
