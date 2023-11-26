@@ -1,2 +1,3 @@
-# MatejPalco.github.io
-Personal website
+# Matej Palco . Personal Website
+
+Still a beginner so...
