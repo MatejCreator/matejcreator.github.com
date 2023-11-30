@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+header {
+    display: grid;
+    grid-template-rows: 600px 50px;
+    grid-template-columns: 10% 80% 10%;
+}
+.navline {
+    grid-area: 2 / 1 / 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.navline ul {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+
+}
+.navline li {
+    width: 100px;
+    text-align: center;
+    text-decoration-line: underline;
+    font-style: oblique;
+    padding: 5px 0;
+    border-radius: 20px;
+    margin: 0 15px;
+    background-color: lightblue;
+    border: 1px solid lightblue;
+}
+#Home {
+    background-color: inherit;
+    border: none;
+    width: 50px;
+}
+a:link {
+    color: initial;
+}
+a:visited {
+    color: initial;
+}
+.header_image {
+    grid-area: 1 / 1 / 3 / 4;
+    background-image: url(images/torii-gate.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: -1;
+    opacity: 0.8;
+    outline: 4px double black;
+}
+.welcome {
+    text-align: center;
+    grid-area: 1 / 1 / 3 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-style: oblique;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 2px;
+    color: lightblue;
+}
+.welcome h3 {
+    margin: 10px;
+}
+.welcome h1 {
+    margin: 10px;
+}
+main {
+    display: grid;
+    grid-template-rows: 150px 300px 300px 300px;
+    grid-template-columns: 20% 60% 20%;
+    grid-auto-flow: row;
+}
+.running_japan {
+    grid-area: 1 / 1 / 2 / 4;
+    margin: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+@keyframes japan {
+    50% {
+        transform: translateX(-200%);
+    }
+}
+#running_japan_1 {
+    animation: japan 60s linear infinite alternate;
+}
+#running_japan_2 {
+    animation: japan 45s linear infinite alternate-reverse;
+}
+#running_japan_3 {
+    animation: japan 52s linear infinite alternate;
+}
+#running_japan_4 {
+    animation: japan 49s linear infinite alternate-reverse;
+}
+#running_japan_5 {
+    animation: japan 57s linear infinite alternate;
+}
+#running_japan_6 {
+    animation: japan 55s linear infinite alternate-reverse;
+}
+#running_japan_7 {
+    animation: japan 51s linear infinite alternate;
+}
+.running_japan p {
+    margin: 0;
+    font-weight: bold;
+}
+#article_1 {
+    grid-area: 2 / 2 / 3 / 3;
+    margin: 5px 5px 0 5px;
+}
+.article_name {
+    font-size: 1.4em;
+    text-decoration-line: underline;
+}
