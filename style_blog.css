@@ -50,7 +50,6 @@ a:visited {
     background-attachment: fixed;
     z-index: -1;
     opacity: 0.8;
-    outline: 4px double black;
 }
 .welcome {
     text-align: center;
@@ -61,10 +60,7 @@ a:visited {
     justify-content: center;
     font-size: 2em;
     font-style: oblique;
-    text-decoration-line: underline;
-    text-decoration-style: wavy;
-    text-decoration-thickness: 2px;
-    color: lightblue;
+    color: skyblue;
 }
 .welcome h3 {
     margin: 10px;
@@ -75,7 +71,7 @@ a:visited {
 main {
     display: grid;
     grid-template-rows: 150px 300px 300px 300px;
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 15% 70% 15%;
     grid-auto-flow: row;
 }
 .running_japan {
@@ -83,6 +79,8 @@ main {
     margin: 10px 0;
     overflow: hidden;
     white-space: nowrap;
+    outline: 2px double;
+     outline-offset: 8px;
 }
 @keyframes japan {
     50% {
@@ -90,35 +88,54 @@ main {
     }
 }
 #running_japan_1 {
-    animation: japan 60s linear infinite alternate;
+    animation: japan 60s cubic-bezier(.36,-0.47,.68,.53) infinite alternate;
 }
 #running_japan_2 {
-    animation: japan 45s linear infinite alternate-reverse;
+    animation: japan 45s cubic-bezier(.39,.58,.18,1.56) infinite alternate-reverse;
 }
 #running_japan_3 {
-    animation: japan 52s linear infinite alternate;
+    animation: japan 52s cubic-bezier(.68,-0.55,.27,1.55) infinite alternate;
 }
 #running_japan_4 {
-    animation: japan 49s linear infinite alternate-reverse;
+    animation: japan 49s cubic-bezier(.72,.2,.3,1.11) infinite alternate-reverse;
 }
 #running_japan_5 {
-    animation: japan 57s linear infinite alternate;
+    animation: japan 57s cubic-bezier(.18,.89,.61,1.32) infinite alternate;
 }
 #running_japan_6 {
-    animation: japan 55s linear infinite alternate-reverse;
+    animation: japan 55s cubic-bezier(.6,.04,.98,.34) infinite alternate-reverse;
 }
 #running_japan_7 {
-    animation: japan 51s linear infinite alternate;
+    animation: japan 51s ease-in infinite alternate;
 }
 .running_japan p {
     margin: 0;
     font-weight: bold;
 }
+.Lside {
+    background-color: skyblue;
+    grid-area: 2 / 1 / 5 / 2;
+    margin-right: 20px;
+    border-right: 2px double;
+}
+.Rside {
+    background-color: skyblue;
+    grid-area: 2 / 3 / 5 / 4;
+    margin-left: 20px;
+    border-left: 2px double;
+}
 #article_1 {
     grid-area: 2 / 2 / 3 / 3;
     margin: 5px 5px 0 5px;
 }
+#article_2 {
+    grid-area: 3 / 2 / 4 / 3;
+    overflow-x: scroll;
+}
 .article_name {
     font-size: 1.4em;
-    text-decoration-line: underline;
+    text-decoration: underline solid grey;
+}
+.article_text {
+    font-size: 1em;
 }
