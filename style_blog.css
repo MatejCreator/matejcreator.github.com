@@ -60,7 +60,7 @@ a:visited {
     justify-content: center;
     font-size: 2em;
     font-style: oblique;
-    color: skyblue;
+    color: rgba(0, 102, 255, 0.801);
 }
 .welcome h3 {
     margin: 10px;
@@ -139,7 +139,7 @@ main {
 }
 .article_div {
     box-shadow: 0 0 20px 5px grey;
-    margin: 7px 0 7px 0;
+    margin: 10px 0 10px 0;
     border-radius: 20px;
     padding: 5px;
 }
