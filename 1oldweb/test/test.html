@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style_test.css">
-    <script src="test_script.js"></script>
-    <title>Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style_test.css">
+  <title>Photo Gallery</title>
 </head>
 <body>
-    <button onclick="add()">try</button>
-</body> 
+  <div class="gallery">
+    <img src="image1.jpg" alt="Photo 1" class="gallery-img" id="currentImg">
+    <button class="btn" onclick="prevImage()">Previous</button>
+    <button class="btn" onclick="nextImage()">Next</button>
+  </div>
+  <script defer src="test_script.js"></script>
+</body>
 </html>
