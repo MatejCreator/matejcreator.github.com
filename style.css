@@ -19,12 +19,6 @@ header {
     background-repeat: no-repeat;
     background-size: cover;
 }
-/* .photo {
-    background-image: url(images/Japan_waves.png);
-    background-position: 50% 70%;
-    background-repeat: no-repeat;
-    background-size: cover;
-} */
 #place_main {
     width: 80%;
     margin: auto;
@@ -34,6 +28,7 @@ header {
 main h3 {
     color: white;
     font-size: 2em;
+    text-decoration: underline wavy white 1px;
 }
 main p {
     color: white;
@@ -43,6 +38,7 @@ main p {
     grid-template-rows: repeat(4, 150px);
     grid-template-columns: 7% 7% 70%;
     row-gap: 25px;
+    font-family: 'Eagle Lake', sans-serif;
 }
 .first_box {
     grid-area: 1 / 1 / 2 / 2;
@@ -241,6 +237,7 @@ animation: cube4 8s linear infinite;
     font-size: 1.2em;
     font-style: oblique;
     margin-left: 30px;
+    width: fit-content;
 }
 .second_box_text {
     grid-area: 2 / 3 / 3 / 4;
@@ -249,6 +246,7 @@ animation: cube4 8s linear infinite;
     font-size: 1.2em;
     font-style: oblique;
     margin-left: 30px;
+    width: fit-content;
 }
 .third_box_text {
     grid-area: 3 / 3 / 4 / 4;
@@ -257,6 +255,7 @@ animation: cube4 8s linear infinite;
     font-size: 1.2em;
     font-style: oblique;
     margin-left: 30px;
+    width: fit-content;
 }
 .fourth_box_text {
     grid-area: 4 / 3 / 5 / 4;
@@ -265,6 +264,7 @@ animation: cube4 8s linear infinite;
     font-size: 1.2em;
     font-style: oblique;
     margin-left: 30px;
+    width: fit-content;
 }
 footer {
     display: grid;
@@ -290,7 +290,7 @@ footer {
 }
 .box_footer_list {
     height: fit-content;
-    width: fit-content;
+    width: 270px;
 }
 .box_footer_list ul {
     list-style-type: none;
