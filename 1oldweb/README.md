@@ -1,3 +1,0 @@
-# Matej Palco . Personal Website
-
-Still a beginner so...
