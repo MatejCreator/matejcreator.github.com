@@ -131,10 +131,14 @@ main {
 }
 #article_2 {
     grid-area: 3 / 2 / 4 / 3;
-    overflow-x: scroll;
+    overflow-y: scroll;
 }
 #article_3 {
     grid-area: 4 / 2 / 5 / 3;
+    overflow-y: scroll;
+}
+#article_4 {
+    grid-area: 5 / 2 / 6 / 3;
     overflow-x: scroll;
 }
 .article_div {
