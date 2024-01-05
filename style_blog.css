@@ -4,7 +4,7 @@ body {
 }
 header {
     display: grid;
-    grid-template-rows: 200px 400px 50px;
+    grid-template-rows: 200px 400px 50px 150px;
     grid-template-columns: 30% 60% 10%;
 }
 .navline {
@@ -70,12 +70,12 @@ a:visited {
 }
 main {
     display: grid;
-    grid-template-rows: 150px repeat(5, 300px);
+    grid-template-rows: 50px repeat(5, 300px);
     grid-template-columns: 15% 70% 15%;
     grid-auto-flow: row;
 }
 .running_japan {
-    grid-area: 1 / 1 / 2 / 4;
+    grid-area: 4 / 1 / 5 / 4;
     margin: 10px 0;
     overflow: hidden;
     white-space: nowrap;
@@ -153,4 +153,22 @@ main {
 }
 .article_text {
     font-size: 1em;
+}
+.tabs {
+    grid-area: 1 / 1 / 2 / 4;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+.tabs a {
+    margin: 0 40px;
+    padding: 5px 10px;
+    font-size: 22px;
+    text-decoration: none;
+    font-weight: bold;
+    font-style: oblique;
+    text-align: center;
+}
+#now {
+    background-color: grey;
 }
