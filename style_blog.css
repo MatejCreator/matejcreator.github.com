@@ -167,7 +167,7 @@ main {
     text-decoration: none;
     font-weight: bold;
     font-style: oblique;
-    text-align: center;
+    text-align: center; 
 }
 #now {
     background-color: grey;
