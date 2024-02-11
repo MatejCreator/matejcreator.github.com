@@ -126,21 +126,6 @@ main {
     margin-left: 20px;
     border-left: 2px double;
 }
-#article_1 {
-    grid-area: 2 / 2 / 3 / 3;
-}
-#article_2 {
-    grid-area: 3 / 2 / 4 / 3;
-    overflow-y: scroll;
-}
-#article_3 {
-    grid-area: 4 / 2 / 5 / 3;
-    overflow-y: scroll;
-}
-#article_4 {
-    grid-area: 5 / 2 / 6 / 3;
-    overflow-x: scroll;
-}
 .article_div {
     box-shadow: 0 0 20px 5px grey;
     margin: 10px 0 10px 0;
@@ -179,4 +164,19 @@ main {
 #now {
     background-color: grey;
     opacity: 0.6;
+}
+#article_1 {
+    grid-area: 2 / 2 / 3 / 3;
+}
+#article_2 {
+    grid-area: 3 / 2 / 4 / 3;
+    overflow-y: scroll;
+}
+#article_3 {
+    grid-area: 4 / 2 / 5 / 3;
+    overflow-y: scroll;
+}
+#article_4 {
+    grid-area: 5 / 2 / 6 / 3;
+    overflow-x: scroll;
 }
