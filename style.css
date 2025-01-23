@@ -333,16 +333,6 @@ footer {
     margin: 10px;
     font-size: 1.2em;
 }
-.InnerWorld_place {
-    grid-area: 3 / 2 / 4 / 6;
-    color: white;
-    align-self: center;
-    justify-self: center;
-    text-align: center;
-    font-size: 2.5em;
-    font-weight: bold;
-    font-style: oblique;
-}
 
 @media screen and (max-width: 900px) {
     .links {
@@ -407,9 +397,6 @@ footer {
         width: fit-content;
         justify-self: normal;
         padding-right: 0;
-    }
-    .InnerWorld_place {
-        grid-area: 5 / 1 / 6 / 4;
     }
 
     footer {
