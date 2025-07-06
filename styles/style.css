@@ -14,7 +14,7 @@ a:visited {
 header {
     width: 100%;
     height: 250px;
-    background-image: url(images/Japan_waves.png);
+    background-image: url(../images/Japan_waves.png);
     background-position: 50% 70%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -34,7 +34,7 @@ main p {
     color: white;
 }
 .links {
-    margin: 0% auto;
+    margin: 0 auto;
     display: grid;
     grid-template-rows: 150px 150px 80px;
     grid-template-columns: 7% 7% 25% 25% 7% 7%;
@@ -75,15 +75,19 @@ main p {
 }
 .b1 {
     animation: cube1 8s linear infinite;
+    transform-style: preserve-3d;
 }
-.b2 {
-    animation: cube2 8s linear infinite;
+.c1 {
+    animation: dramatic_cube_spin 3s linear infinite;
+    transform-style: preserve-3d;
 }
-.b3 {
-    animation: cube3 8s linear infinite;
+.d1 {
+    animation: calm_cube_spin 4s ease-in-out infinite;
+    transform-style: preserve-3d;
 }
-.b4 {
-    animation: cube4 8s linear infinite;
+.small_cubes {
+    animation: small_cube 2s linear infinite;
+    transform-style: preserve-3d;
 }
 .face {
     width: var(--width);
@@ -103,6 +107,7 @@ main p {
 .right { transform: translateX(25px) rotateY(90deg); }
 .top { transform: translateY(-25px) rotateX(90deg); }
 .bottom { transform: translateY(25px) rotateX(-90deg); }
+
 @keyframes cube1 {
     0% { transform: rotateX(45deg) rotateY(45deg); }
     25% { transform: rotateX(-45deg) rotateY(135deg); }
@@ -131,6 +136,28 @@ main p {
     75% { transform: rotateX(270deg) rotateY(180deg); }
     100% { transform: rotateX(60deg) rotateY(30deg); }
 }
+@keyframes small_cube {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    25% { transform: rotateX(90deg) rotateY(85deg) rotateZ(95deg); }
+    50% { transform: rotateX(180deg) rotateY(175deg) rotateZ(185deg); }
+    75% { transform: rotateX(270deg) rotateY(265deg) rotateZ(275deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+@keyframes dramatic_cube_spin {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    20% { transform: rotateX(150deg) rotateY(-45deg) rotateZ(90deg); }
+    40% { transform: rotateX(30deg) rotateY(180deg) rotateZ(225deg); }
+    60% { transform: rotateX(270deg) rotateY(45deg) rotateZ(180deg); }
+    80% { transform: rotateX(120deg) rotateY(270deg) rotateZ(315deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+@keyframes calm_cube_spin {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    33% { transform: rotateX(120deg) rotateY(40deg) rotateZ(60deg); }
+    66% { transform: rotateX(240deg) rotateY(80deg) rotateZ(120deg); }
+    100% { transform: rotateX(360deg) rotateY(120deg) rotateZ(180deg); }
+}
+
 .box-container-extra {
     display: grid;
     grid-template-rows: repeat(12, 8%);
@@ -217,18 +244,7 @@ main p {
     transform-style: preserve-3d;
     transform: rotateX(45deg) rotateY(45deg);
 }
-.face_small-small {
-    width: var(--width_small);
-    height: var(--height_small);
-    background-color: rgb(120, 192, 255);
-    border: 1px solid rgb(120, 192, 255);
-    border-radius: 5px;
-    position: absolute;
-    opacity: 0.3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 .front_small-small { transform: translateZ(7px); }
 .back_small-small { transform: translateZ(-7px) rotateY(180deg); }
 .left_small-small { transform: translateX(-7px) rotateY(-90deg); }
@@ -440,19 +456,6 @@ footer {
     .footer_list_top {
         border-bottom: 2px double white;
         padding-bottom: 5px;
-    }
-    .other_links {
-        grid-area: 1 / 1 / 2 / 2;
-        align-items: center;
-        justify-content: center;
-        width: 70%;
-        height: 60%;
-        border: 2px double white;
-        border-radius: 25px;
-        padding: 15px;
-        background-color: rgb(33, 33, 33);
-        color: white;
-        display: flex;
     }
     .other_links div {
         width: fit-content;

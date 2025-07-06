@@ -43,7 +43,7 @@ a:visited {
 }
 .header_image {
     grid-area: 1 / 1 / 4 / 4;
-    background-image: url(images/torii-gate.jpg);
+    background-image: url(../images/torii-gate.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
