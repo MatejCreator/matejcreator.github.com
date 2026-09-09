@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Autobiography</title>
+    <link rel="icon" href="images/samurai.png" type="image/x-icon">
+    
+    <style>
+        :root {
+            --bg-primary: #e6efe7; 
+            --bg-secondary: #d0e0d2;
+            --bg-paper: #f9fbf9;
+            --accent-black: #111111;
+            --accent-blue: #1b4965;
+            --text-main: #222222;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .top-bar {
+            background-color: var(--accent-black);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-family: 'Courier New', Courier, monospace; 
+            border-bottom: 4px solid var(--accent-blue);
+        }
+
+        .home-btn {
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            padding: 6px 15px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        .home-btn:hover {
+            background-color: white;
+            color: var(--accent-black);
+        }
+
+        .auth-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9em;
+        }
+
+        .auth-container input {
+            padding: 6px;
+            border: 1px solid #ccc;
+            font-family: 'Courier New', Courier, monospace;
+            background: #fff;
+            border-radius: 0; 
+        }
+
+        .auth-container button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: 1px solid var(--accent-blue);
+            padding: 6px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .auth-container button:hover {
+            background-color: transparent;
+            color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .timeline-nav {
+            background-color: var(--bg-secondary);
+            padding: 25px 20px;
+            display: flex;
+            gap: 15px;
+            border-bottom: 2px solid var(--accent-black);
+            overflow-x: hidden; 
+            cursor: ew-resize; 
+            white-space: nowrap;
+        }
+
+        .year-btn {
+            background-color: transparent;
+            color: var(--accent-black);
+            border: 2px solid var(--accent-black);
+            padding: 8px 16px;
+            font-size: 1.1em;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .year-btn:hover {
+            background-color: var(--accent-black);
+            color: white;
+        }
+
+        .year-btn.active {
+            background-color: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .content-container {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: var(--bg-paper);
+            border: 2px solid var(--accent-black);
+            box-shadow: 8px 8px 0px var(--accent-black); 
+        }
+
+        .year-title {
+            font-size: 3.5em;
+            color: var(--accent-black);
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 3px double var(--accent-black); 
+            padding-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .public-text {
+            font-size: 1.15em;
+            margin-bottom: 30px;
+        }
+
+        .private-text {
+            background-color: #eef4f7;
+            border: 1px solid var(--accent-blue);
+            border-left: 6px solid var(--accent-blue);
+            padding: 20px;
+            font-style: italic;
+            display: none;
+        }
+        
+        .private-text.visible {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        #access-status {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header class="top-bar">
+        <a href="index.html" class="home-btn">&#8592; Home</a>
+        <div class="auth-container">
+            <span id="access-status">Guest</span>
+            <input type="password" id="access-code" placeholder="Enter key...">
+            <button onclick="checkAccess()">Unlock</button>
+        </div>
+    </header>
+
+    <div class="timeline-nav" id="nav-container">
+        <!-- Buttons generated dynamically -->
+    </div>
+
+    <div class="content-container">
+        <h1 class="year-title" id="display-year">Loading...</h1>
+        <div class="public-text" id="public-content">
+            Fetching autobiography data...
+        </div>
+        <div class="private-text" id="private-content"></div>
+    </div>
+
+    <script>
+        let bioData = {};
+        let currentYear = 2026;
+        let isVipAccess = false;
+        const SECRET_PASSWORD = "hello"; // Temporary frontend password
+        const navContainer = document.getElementById('nav-container');
+
+        // --- 1. Fetch External Data ---
+        fetch('data/TextData.json')
+            .then(response => {
+                if (!response.ok) throw new Error("File not found");
+                return response.json();
+            })
+            .then(data => {
+                bioData = data;
+                initializeTimeline();
+                updateContent();
+            })
+            .catch(error => {
+                document.getElementById('public-content').innerHTML = 
+                    "<strong>Error:</strong> Could not load data.json. If you are opening this file directly in a browser (file://), CORS policies block fetching local files. You need to run a local development server (like VS Code Live Server or python -m http.server).";
+                console.error(error);
+            });
+
+        // --- 2. Initialize Timeline ---
+        function initializeTimeline() {
+            for (let year = 2004; year <= 2026; year++) {
+                const btn = document.createElement('button');
+                btn.className = 'year-btn';
+                btn.textContent = year;
+                btn.onclick = () => selectYear(year, btn);
+                navContainer.appendChild(btn);
+                
+                if (year === currentYear) {
+                    btn.classList.add('active');
+                }
+            }
+        }
+
+        // --- 3. Improved Hover Scrolling with Deadzones ---
+        navContainer.addEventListener('mousemove', (e) => {
+            const rect = navContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = x / rect.width;
+            
+            // 15% edge deadzone mapping
+            const edgeThreshold = 0.15;
+            let adjustedPercentage = (percentage - edgeThreshold) / (1 - (2 * edgeThreshold));
+            
+            // Clamp values between 0 and 1
+            adjustedPercentage = Math.max(0, Math.min(1, adjustedPercentage));
+            
+            const maxScroll = navContainer.scrollWidth - navContainer.clientWidth;
+            if (maxScroll > 0) {
+                navContainer.scrollLeft = adjustedPercentage * maxScroll;
+            }
+        });
+
+        // --- 4. Content Functions ---
+        function selectYear(year, clickedBtn) {
+            currentYear = year;
+            document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+            clickedBtn.classList.add('active');
+            updateContent();
+        }
+
+        function updateContent() {
+            document.getElementById('display-year').textContent = currentYear;
+            
+            const data = bioData[currentYear] || { public: "Details for this year are still being written.", private: "" };
+            
+            document.getElementById('public-content').innerHTML = data.public;
+            
+            const privateDiv = document.getElementById('private-content');
+            if (isVipAccess && data.private) {
+                privateDiv.innerHTML = "<strong>Private Entry:</strong><br>" + data.private;
+                privateDiv.classList.add('visible');
+            } else {
+                privateDiv.classList.remove('visible');
+            }
+        }
+
+        function checkAccess() {
+            const input = document.getElementById('access-code').value;
+            const statusText = document.getElementById('access-status');
+            
+            if (input === SECRET_PASSWORD) {
+                isVipAccess = true;
+                statusText.textContent = "Authorized";
+                statusText.style.color = "#a8d5ba"; 
+            } else {
+                isVipAccess = false;
+                statusText.textContent = "Guest";
+                statusText.style.color = "white";
+                if(input !== "") alert("Incorrect key.");
+            }
+            updateContent();
+            document.getElementById('access-code').value = ''; 
+        }
+    </script>
+</body>
+</html>
