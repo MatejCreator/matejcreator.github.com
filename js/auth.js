@@ -13,12 +13,10 @@
 
     // level: 0 guest, 1 kamarát, 2 love (priateľka)
     const HASHES = {
-        // kamarat
         "bc2851ac869fc64c9ee71c96cb75392d5b1ea09d43e3bffaef6b6b71b30e7971": {
             level: 1,
             label: "Kamarát"
         },
-        // Lubim ta
         "e21ac2c638d0e76bd4b47a9b474ae1dc948dbe722aad1a455aa99241b696fa74": {
             level: 2,
             label: "Priateľka"
