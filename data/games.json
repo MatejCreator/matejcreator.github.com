@@ -1,0 +1,54 @@
+[
+    {
+        "id": "pingpong",
+        "title": "Ping Pong",
+        "description": "Jednoduchý pong — hráš proti AI, skóre sa počíta.",
+        "photo": null,
+        "links": [
+            { "label": "Hrať", "url": "games/pingpong.html" }
+        ],
+        "tags": ["hotové"]
+    },
+    {
+        "id": "dino",
+        "title": "Offline Dino",
+        "description": "Moja verzia dinosaura, keď Google nejde.",
+        "photo": null,
+        "links": [
+            { "label": "Hrať", "url": "games/dino.html" }
+        ],
+        "tags": ["hotové"]
+    },
+    {
+        "id": "soon-1",
+        "title": "Čoskoro",
+        "description": "Placeholder na ďalšiu hru.",
+        "photo": null,
+        "links": [],
+        "tags": ["placeholder"]
+    },
+    {
+        "id": "soon-2",
+        "title": "Čoskoro",
+        "description": "Placeholder na ďalšiu hru.",
+        "photo": null,
+        "links": [],
+        "tags": ["placeholder"]
+    },
+    {
+        "id": "soon-3",
+        "title": "Čoskoro",
+        "description": "Placeholder na ďalšiu hru.",
+        "photo": null,
+        "links": [],
+        "tags": ["placeholder"]
+    },
+    {
+        "id": "soon-4",
+        "title": "Čoskoro",
+        "description": "Placeholder na ďalšiu hru.",
+        "photo": null,
+        "links": [],
+        "tags": ["placeholder"]
+    }
+]

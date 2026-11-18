@@ -1,116 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/samurai.png" type="images/x-icon">
-    <script src="https://kit.fontawesome.com/e5ddeaf40b.js" crossorigin="anonymous"></script>
-    <title>Matej Palčo . personal website</title>
-
+    <link rel="icon" href="images/samurai.png" type="image/png">
+    <title>Matej Palčo</title>
     <style>
         body {
             margin: 0;
-            background: black;
+            background: #000;
             overflow: hidden;
+            cursor: none;
         }
         canvas {
             display: block;
         }
     </style>
-
 </head>
 <body>
 <canvas id="matrix"></canvas>
 <script>
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
 
-    function toggleFullScreen() {
-        if (!document.fullscreenElement) {
-            // Request fullscreen
-            if (canvas.requestFullscreen) {
-                canvas.requestFullscreen();
-            } else if (canvas.webkitRequestFullscreen) { // Safari
-                canvas.webkitRequestFullscreen();
-            } else if (canvas.msRequestFullscreen) { // IE11
-                canvas.msRequestFullscreen();
-            }
-        } else {
-            // Exit fullscreen
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { // Safari
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { // IE11
-                document.msExitFullscreen();
-            }
-        }
+    function goFullscreen() {
+        const el = document.documentElement;
+        if (document.fullscreenElement) return;
+        (el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen)?.call(el);
     }
 
-    // Auto-start fullscreen when page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        toggleFullScreen();
+    document.addEventListener("DOMContentLoaded", () => {
+        goFullscreen();
     });
+    canvas.addEventListener("click", goFullscreen);
+    document.addEventListener("fullscreenchange", resize);
+    window.addEventListener("resize", resize);
 
-    // Allow toggling fullscreen with click
-    canvas.addEventListener('click', toggleFullScreen);
+    // Classic Matrix: katakana + latin + digits, film green
+    const letters =
+        "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const lettersArray = letters.split("");
 
-    // Update canvas size when entering/exiting fullscreen
-    document.addEventListener('fullscreenchange', () => {
+    const fontSize = 18;
+    let columns = 0;
+    let drops = [];
+
+    function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-    });
-
-    // Full screen canvas
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Characters: Japanese Katakana + numbers + letters
-    const letters = 'アァカサタナハマヤラワABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん';
-    const lettersArray = letters.split('');
-
-    const fontSize = 16;
-    const columns = Math.floor(canvas.width / fontSize);
-
-    // Y positions for each column
-    const drops = Array(columns).fill(1);
-
-function draw() {
-    // Translucent black background for fade effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#0F0';
-    ctx.font = `${fontSize}px monospace`;
-
-    for (let i = 0; i < drops.length; i++) {
-        const text = lettersArray[Math.floor(Math.random() * lettersArray.length)];
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
-
-        ctx.fillText(text, x, y);
-
-        // Reset drop back to top randomly after it goes beyond canvas height
-        if (y > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-        }
-        drops[i]++;
+        columns = Math.floor(canvas.width / fontSize);
+        const old = drops.slice();
+        drops = Array.from({ length: columns }, (_, i) =>
+            old[i] != null ? old[i] : Math.random() * -50
+        );
     }
 
-    // Add delay before next frame
-    setTimeout(() => {
-        requestAnimationFrame(draw);
-    }, 40); // Adds 50ms delay between frames
-}
+    resize();
+
+    function draw() {
+        // Stronger wipe = kratší shadow (nesmie sa zlievať do zelenej plochy)
+        ctx.fillStyle = "rgba(0, 0, 0, 0.14)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = lettersArray[Math.floor(Math.random() * lettersArray.length)];
+            const x = i * fontSize;
+            const y = drops[i] * fontSize;
+
+            ctx.fillStyle = "#c8ffc8";
+            ctx.fillText(text, x, y);
+
+            // Len jedna krátka stopa, nie dlhý zelený chvost
+            if (drops[i] > 1) {
+                ctx.fillStyle = "#00ff41";
+                ctx.globalAlpha = 0.55;
+                ctx.fillText(
+                    lettersArray[Math.floor(Math.random() * lettersArray.length)],
+                    x,
+                    y - fontSize
+                );
+                ctx.globalAlpha = 1;
+            }
+
+            if (y > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+
+        setTimeout(() => requestAnimationFrame(draw), 70);
+    }
 
     draw();
-
-    // Update canvas size on window resize
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
 </script>
 </body>
-
 </html>

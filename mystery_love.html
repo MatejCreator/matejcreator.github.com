@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/samurai.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <title>Matej Palčo</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            cursor: none;
+            font-family: "Source Sans 3", sans-serif;
+            background: #1a1018;
+        }
+
+        .romance-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            background: #160e16;
+        }
+
+        .blob {
+            position: absolute;
+            width: 55vmax;
+            height: 55vmax;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.42;
+            will-change: transform, background-color;
+            animation: drift 18s ease-in-out infinite alternate;
+        }
+
+        .blob.b1 {
+            top: -15%;
+            left: -10%;
+            background: #6b3a52;
+            animation-duration: 16s;
+        }
+
+        .blob.b2 {
+            top: 20%;
+            right: -20%;
+            background: #4a3568;
+            animation-duration: 22s;
+            animation-delay: -4s;
+        }
+
+        .blob.b3 {
+            bottom: -20%;
+            left: 20%;
+            background: #5c3a45;
+            animation-duration: 20s;
+            animation-delay: -8s;
+        }
+
+        .blob.b4 {
+            top: 40%;
+            left: 30%;
+            width: 40vmax;
+            height: 40vmax;
+            background: #2f3d55;
+            opacity: 0.35;
+            animation-duration: 24s;
+            animation-delay: -2s;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(8%, -6%) scale(1.08); }
+            66% { transform: translate(-6%, 10%) scale(0.95); }
+            100% { transform: translate(4%, 4%) scale(1.05); }
+        }
+
+        .romance-bg::after {
+            content: "♥";
+            position: absolute;
+            font-size: 38vw;
+            color: rgba(220, 140, 170, 0.07);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Great Vibes", cursive;
+            animation: heartPulse 7s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { opacity: 0.05; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.1; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        canvas {
+            position: relative;
+            z-index: 1;
+            display: block;
+        }
+
+        .gate {
+            position: fixed;
+            inset: 0;
+            background: #160e16;
+            z-index: 5;
+        }
+        .gate[hidden] { display: none; }
+    </style>
+</head>
+<body>
+    <div class="gate" id="gate"></div>
+    <div class="romance-bg" id="bg" hidden>
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+        <div class="blob b4"></div>
+    </div>
+    <canvas id="matrix" hidden></canvas>
+
+    <script src="js/auth.js"></script>
+    <script src="js/love-phrases.js"></script>
+    <script>
+        const gate = document.getElementById("gate");
+        const canvas = document.getElementById("matrix");
+        const bg = document.getElementById("bg");
+
+        if (Auth.hasLevel(Auth.LEVEL.LOVE)) {
+            gate.hidden = true;
+            bg.hidden = false;
+            canvas.hidden = false;
+            startLoveRain();
+        } else {
+            window.location.replace("autobiography.html");
+        }
+
+        function goFullscreen() {
+            const el = document.documentElement;
+            if (document.fullscreenElement) return;
+            (el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen)?.call(el);
+        }
+
+        function startLoveRain() {
+            goFullscreen();
+            canvas.addEventListener("click", goFullscreen);
+
+            const ctx = canvas.getContext("2d");
+            const phrases = window.LOVE_PHRASES.slice();
+            const STREAMS = 16;
+            let streams = [];
+            let bag = [];
+            let recent = [];
+
+            function refillBag() {
+                bag = phrases.slice();
+                for (let i = bag.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    const tmp = bag[i];
+                    bag[i] = bag[j];
+                    bag[j] = tmp;
+                }
+            }
+
+            function pick() {
+                if (!bag.length) refillBag();
+                let next = bag.pop();
+                let guard = 0;
+                while (recent.indexOf(next.text) !== -1 && bag.length && guard < 20) {
+                    bag.unshift(next);
+                    next = bag.pop();
+                    guard++;
+                }
+                recent.push(next.text);
+                if (recent.length > 10) recent.shift();
+                return next;
+            }
+
+            function rand(a, b) {
+                return a + Math.random() * (b - a);
+            }
+
+            function makeStream() {
+                return {
+                    x: rand(0.05, 0.95) * (window.innerWidth || 800),
+                    y: rand(-200, window.innerHeight || 600),
+                    speed: rand(0.25, 1.35),
+                    drift: rand(-0.35, 0.35),
+                    entry: pick(),
+                    wobble: Math.random() * Math.PI * 2,
+                    wobbleSpeed: rand(0.004, 0.022),
+                    wobbleAmp: rand(6, 28),
+                    size: Math.floor(rand(15, 34)),
+                    spin: rand(-0.012, 0.012),
+                    angle: rand(-0.12, 0.12)
+                };
+            }
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const old = streams.slice();
+                streams = [];
+                for (let i = 0; i < STREAMS; i++) {
+                    const s = old[i] || makeStream();
+                    if (!old[i]) {
+                        s.x = rand(0.04, 0.96) * canvas.width;
+                        s.y = rand(-120, canvas.height);
+                    } else {
+                        s.x = Math.min(canvas.width * 0.96, Math.max(canvas.width * 0.04, s.x));
+                    }
+                    streams.push(s);
+                }
+            }
+
+            function softFlag(hex) {
+                // na tmavom pozadí nechať vlajkové farby čitateľnejšie (mierne zosvetlenie)
+                const n = (hex || "#c76b8f").replace("#", "");
+                const full = n.length === 3 ? n.split("").map((c) => c + c).join("") : n;
+                const num = parseInt(full, 16);
+                let r = (num >> 16) & 255;
+                let g = (num >> 8) & 255;
+                let b = num & 255;
+                r = Math.round(r * 0.82 + 255 * 0.18);
+                g = Math.round(g * 0.82 + 220 * 0.18);
+                b = Math.round(b * 0.82 + 230 * 0.18);
+                return "rgb(" + r + "," + g + "," + b + ")";
+            }
+
+            function flagGradient(ctx, x, y, text, colors, size) {
+                ctx.font = "600 " + size + "px 'Source Sans 3', sans-serif";
+                const w = Math.max(ctx.measureText(text).width, 12);
+                const grad = ctx.createLinearGradient(x - w / 2, y, x + w / 2, y);
+                const cols = (colors && colors.length ? colors : ["#c76b8f", "#e891a8"]);
+                for (let i = 0; i < cols.length; i++) {
+                    grad.addColorStop(i / Math.max(cols.length - 1, 1), softFlag(cols[i]));
+                }
+                return grad;
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = 0; i < streams.length; i++) {
+                    const s = streams[i];
+                    s.wobble += s.wobbleSpeed;
+                    s.angle += s.spin;
+                    s.x += s.drift * 0.15;
+                    const x = s.x + Math.sin(s.wobble) * s.wobbleAmp;
+                    const text = s.entry.text;
+                    const colors = s.entry.colors || [s.entry.color || "#c76b8f"];
+
+                    ctx.save();
+                    ctx.translate(x, s.y);
+                    ctx.rotate(s.angle);
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.font = "600 " + s.size + "px 'Source Sans 3', sans-serif";
+
+                    ctx.shadowColor = "rgba(0,0,0,0.45)";
+                    ctx.shadowBlur = 8;
+                    ctx.fillStyle = flagGradient(ctx, 0, 0, text, colors, s.size);
+                    ctx.globalAlpha = 0.95;
+                    ctx.fillText(text, 0, 0);
+                    ctx.restore();
+                    ctx.globalAlpha = 1;
+
+                    s.y += s.speed;
+
+                    // občas náhodne „teleport“ / zmena trajektórie
+                    if (Math.random() < 0.002) {
+                        s.drift = rand(-0.45, 0.45);
+                        s.speed = rand(0.25, 1.4);
+                        s.wobbleAmp = rand(6, 30);
+                    }
+
+                    if (s.y > canvas.height + 50 || s.x < -80 || s.x > canvas.width + 80) {
+                        const next = makeStream();
+                        next.y = -30 - Math.random() * 160;
+                        next.x = rand(0.04, 0.96) * canvas.width;
+                        streams[i] = next;
+                    }
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            refillBag();
+            resize();
+            window.addEventListener("resize", resize);
+            document.addEventListener("fullscreenchange", resize);
+            draw();
+        }
+    </script>
+</body>
+</html>

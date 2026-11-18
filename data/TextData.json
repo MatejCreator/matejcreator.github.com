@@ -1,18 +1,22 @@
 {
     "2004": {
-        "public": "I was born.",
-        "private": "I was born at 3 AM and apparently made a huge scene."
+        "public": "Narodil som sa.",
+        "private": "Narodil som sa o tretej ráno a údajne som urobil poriadny humbuk.",
+        "secret": ""
     },
     "2024": {
-        "public": "Focused heavily on building my foundation in IT and programming.",
-        "private": "Survived exams through sheer willpower and a lot of caffeine."
+        "public": "Sústredil som sa na základy IT a programovania.",
+        "private": "Skúšky som prežil silou vôle a množstvom kofeínu.",
+        "secret": ""
     },
     "2025": {
-        "public": "Dove deep into my specialization in image processing and computer vision.",
-        "private": "Worked on some side projects for my resume that I'm actually really proud of."
+        "public": "Ponoril som sa do špecializácie — spracovanie obrazu a computer vision.",
+        "private": "Robil som vedľajšie projekty do portfólia, na ktoré som skutočne hrdý.",
+        "secret": ""
     },
     "2026": {
-        "public": "Entering my third year at university.",
-        "private": "Navigating long-distance while my girlfriend is on her Erasmus exchange."
+        "public": "Vstupujem do tretieho ročníka na univerzite.",
+        "private": "Zvládam diaľku, kým je priateľka na Erasme.",
+        "secret": "Pre teba je tu niečo špeciálne — Mystery of Love v autobiografii."
     }
 }

@@ -1,295 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Autobiography</title>
-    <link rel="icon" href="images/samurai.png" type="image/x-icon">
-    
-    <style>
-        :root {
-            --bg-primary: #e6efe7; 
-            --bg-secondary: #d0e0d2;
-            --bg-paper: #f9fbf9;
-            --accent-black: #111111;
-            --accent-blue: #1b4965;
-            --text-main: #222222;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            line-height: 1.8;
-            overflow-x: hidden;
-        }
-
-        .top-bar {
-            background-color: var(--accent-black);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            font-family: 'Courier New', Courier, monospace; 
-            border-bottom: 4px solid var(--accent-blue);
-        }
-
-        .home-btn {
-            color: white;
-            text-decoration: none;
-            border: 1px solid white;
-            padding: 6px 15px;
-            font-weight: bold;
-            transition: background-color 0.2s, color 0.2s;
-            text-transform: uppercase;
-            font-size: 0.9em;
-        }
-
-        .home-btn:hover {
-            background-color: white;
-            color: var(--accent-black);
-        }
-
-        .auth-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.9em;
-        }
-
-        .auth-container input {
-            padding: 6px;
-            border: 1px solid #ccc;
-            font-family: 'Courier New', Courier, monospace;
-            background: #fff;
-            border-radius: 0; 
-        }
-
-        .auth-container button {
-            background-color: var(--accent-blue);
-            color: white;
-            border: 1px solid var(--accent-blue);
-            padding: 6px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-
-        .auth-container button:hover {
-            background-color: transparent;
-            color: var(--accent-blue);
-            border-color: var(--accent-blue);
-        }
-
-        .timeline-nav {
-            background-color: var(--bg-secondary);
-            padding: 25px 20px;
-            display: flex;
-            gap: 15px;
-            border-bottom: 2px solid var(--accent-black);
-            overflow-x: hidden; 
-            cursor: ew-resize; 
-            white-space: nowrap;
-        }
-
-        .year-btn {
-            background-color: transparent;
-            color: var(--accent-black);
-            border: 2px solid var(--accent-black);
-            padding: 8px 16px;
-            font-size: 1.1em;
-            font-family: 'Georgia', serif;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        .year-btn:hover {
-            background-color: var(--accent-black);
-            color: white;
-        }
-
-        .year-btn.active {
-            background-color: var(--accent-blue);
-            color: white;
-            border-color: var(--accent-blue);
-            font-weight: bold;
-        }
-
-        .content-container {
-            max-width: 750px;
-            margin: 50px auto;
-            padding: 40px;
-            background-color: var(--bg-paper);
-            border: 2px solid var(--accent-black);
-            box-shadow: 8px 8px 0px var(--accent-black); 
-        }
-
-        .year-title {
-            font-size: 3.5em;
-            color: var(--accent-black);
-            margin-top: 0;
-            margin-bottom: 20px;
-            border-bottom: 3px double var(--accent-black); 
-            padding-bottom: 10px;
-            font-weight: normal;
-        }
-
-        .public-text {
-            font-size: 1.15em;
-            margin-bottom: 30px;
-        }
-
-        .private-text {
-            background-color: #eef4f7;
-            border: 1px solid var(--accent-blue);
-            border-left: 6px solid var(--accent-blue);
-            padding: 20px;
-            font-style: italic;
-            display: none;
-        }
-        
-        .private-text.visible {
-            display: block;
-            animation: fadeIn 0.4s ease-in;
-        }
-
-        #access-status {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+    <title>Autobiografia · Matej Palčo</title>
+    <link rel="icon" href="images/samurai.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/style_autobiography.css">
 </head>
-<body>
+<body class="theme-base">
     <header class="top-bar">
-        <a href="index.html" class="home-btn">&#8592; Home</a>
+        <a href="index.html" class="home-btn" title="Domov">←</a>
         <div class="auth-container">
-            <span id="access-status">Guest</span>
-            <input type="password" id="access-code" placeholder="Enter key...">
-            <button onclick="checkAccess()">Unlock</button>
+            <div class="auth-row">
+                <span id="access-status" data-auth-label>Hosť</span>
+                <input type="password" id="access-code" placeholder="Zadaj kľúč…" autocomplete="off">
+                <button type="button" class="btn-unlock" id="btn-unlock" title="Odomknúť">→</button>
+                <button type="button" class="btn-logout" id="btn-logout" title="Odhlásiť">Odhlásiť</button>
+            </div>
+            <div id="auth-msg" class="auth-msg" role="status"></div>
         </div>
     </header>
 
-    <div class="timeline-nav" id="nav-container">
-        <!-- Buttons generated dynamically -->
-    </div>
+    <div class="timeline-nav" id="nav-container"></div>
 
-    <div class="content-container">
-        <h1 class="year-title" id="display-year">Loading...</h1>
-        <div class="public-text" id="public-content">
-            Fetching autobiography data...
+    <div class="page-scroll">
+        <div class="content-container">
+            <h1 class="year-title" id="display-year">Načítavam…</h1>
+            <div class="public-text" id="public-content">Načítavam autobiografiu…</div>
+            <div class="private-text" id="private-content"></div>
+            <div class="secret-text" id="secret-content"></div>
+            <p class="locked-hint" id="locked-hint" hidden>
+                Niektoré zápisy sú zamknuté. Prihlás sa kľúčom hore — podľa úrovne uvidíš viac.
+            </p>
+
+            <div class="love-gate" id="love-gate" data-min-level="2" hidden>
+                <div>
+                    <h3>Pre teba</h3>
+                    <p>Len ty toto uvidíš.</p>
+                </div>
+                <a href="mystery_love.html" title="Otvoriť">♥</a>
+            </div>
         </div>
-        <div class="private-text" id="private-content"></div>
     </div>
 
+    <script src="js/auth.js"></script>
     <script>
         let bioData = {};
         let currentYear = 2026;
-        let isVipAccess = false;
-        const SECRET_PASSWORD = "hello"; // Temporary frontend password
-        const navContainer = document.getElementById('nav-container');
+        const navContainer = document.getElementById("nav-container");
+        const statusEl = document.getElementById("access-status");
+        const msgEl = document.getElementById("auth-msg");
+        const logoutBtn = document.getElementById("btn-logout");
 
-        // --- 1. Fetch External Data ---
-        fetch('data/TextData.json')
-            .then(response => {
-                if (!response.ok) throw new Error("File not found");
-                return response.json();
-            })
-            .then(data => {
-                bioData = data;
-                initializeTimeline();
-                updateContent();
-            })
-            .catch(error => {
-                document.getElementById('public-content').innerHTML = 
-                    "<strong>Error:</strong> Could not load data.json. If you are opening this file directly in a browser (file://), CORS policies block fetching local files. You need to run a local development server (like VS Code Live Server or python -m http.server).";
-                console.error(error);
-            });
+        function refreshAuthUI() {
+            const session = Auth.getSession();
+            statusEl.textContent = session.label;
+            statusEl.classList.toggle("is-auth", session.level > 0);
+            logoutBtn.classList.toggle("is-visible", session.level > 0);
+            Auth.applyVisibility();
+            updateContent();
+        }
 
-        // --- 2. Initialize Timeline ---
-        function initializeTimeline() {
-            for (let year = 2004; year <= 2026; year++) {
-                const btn = document.createElement('button');
-                btn.className = 'year-btn';
-                btn.textContent = year;
-                btn.onclick = () => selectYear(year, btn);
-                navContainer.appendChild(btn);
-                
-                if (year === currentYear) {
-                    btn.classList.add('active');
-                }
+        let msgTimer = null;
+        function showAuthMsg(text, kind) {
+            msgEl.textContent = text || "";
+            msgEl.className = "auth-msg" + (kind ? " " + kind : "");
+            clearTimeout(msgTimer);
+            if (text) {
+                msgTimer = setTimeout(function () {
+                    msgEl.textContent = "";
+                    msgEl.className = "auth-msg";
+                }, 2800);
             }
         }
 
-        // --- 3. Improved Hover Scrolling with Deadzones ---
-        navContainer.addEventListener('mousemove', (e) => {
+        async function tryLogin() {
+            const input = document.getElementById("access-code");
+            const result = await Auth.login(input.value);
+            showAuthMsg(result.message, result.ok ? "ok" : "error");
+            input.value = "";
+            refreshAuthUI();
+        }
+
+        document.getElementById("btn-unlock").addEventListener("click", tryLogin);
+        document.getElementById("access-code").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") tryLogin();
+        });
+        logoutBtn.addEventListener("click", () => {
+            Auth.logout();
+            showAuthMsg("Odhlásené.", "");
+            refreshAuthUI();
+        });
+
+        fetch("data/TextData.json")
+            .then((r) => {
+                if (!r.ok) throw new Error("Súbor sa nenašiel");
+                return r.json();
+            })
+            .then((data) => {
+                bioData = data;
+                initializeTimeline();
+                refreshAuthUI();
+            })
+            .catch(() => {
+                document.getElementById("display-year").textContent = "—";
+                document.getElementById("public-content").textContent =
+                    "Nepodarilo sa načítať TextData.json. Otvor stránku cez lokálny server (nie file://).";
+            });
+
+        function initializeTimeline() {
+            for (let year = 2004; year <= 2026; year++) {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "year-btn";
+                btn.textContent = year;
+                btn.addEventListener("click", () => selectYear(year, btn));
+                navContainer.appendChild(btn);
+                if (year === currentYear) btn.classList.add("active");
+            }
+        }
+
+        let scrollTarget = 0;
+        let scrollCurrent = 0;
+        let scrolling = false;
+
+        function tickScroll() {
+            scrolling = true;
+            scrollCurrent += (scrollTarget - scrollCurrent) * 0.12;
+            if (Math.abs(scrollTarget - scrollCurrent) < 0.35) {
+                scrollCurrent = scrollTarget;
+                navContainer.scrollLeft = scrollCurrent;
+                scrolling = false;
+                return;
+            }
+            navContainer.scrollLeft = scrollCurrent;
+            requestAnimationFrame(tickScroll);
+        }
+
+        navContainer.addEventListener("mousemove", (e) => {
             const rect = navContainer.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const percentage = x / rect.width;
-            
-            // 15% edge deadzone mapping
-            const edgeThreshold = 0.15;
-            let adjustedPercentage = (percentage - edgeThreshold) / (1 - (2 * edgeThreshold));
-            
-            // Clamp values between 0 and 1
-            adjustedPercentage = Math.max(0, Math.min(1, adjustedPercentage));
-            
+            const edge = 0.18;
+            let t = (percentage - edge) / (1 - 2 * edge);
+            t = Math.max(0, Math.min(1, t));
             const maxScroll = navContainer.scrollWidth - navContainer.clientWidth;
-            if (maxScroll > 0) {
-                navContainer.scrollLeft = adjustedPercentage * maxScroll;
-            }
+            if (maxScroll <= 0) return;
+            scrollTarget = t * maxScroll;
+            if (!scrolling) tickScroll();
         });
 
-        // --- 4. Content Functions ---
+        navContainer.addEventListener("wheel", (e) => {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                const maxScroll = navContainer.scrollWidth - navContainer.clientWidth;
+                scrollTarget = Math.max(0, Math.min(maxScroll, scrollTarget + e.deltaY));
+                if (!scrolling) {
+                    scrollCurrent = navContainer.scrollLeft;
+                    tickScroll();
+                }
+            }
+        }, { passive: false });
+
         function selectYear(year, clickedBtn) {
             currentYear = year;
-            document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
-            clickedBtn.classList.add('active');
+            document.querySelectorAll(".year-btn").forEach((b) => b.classList.remove("active"));
+            clickedBtn.classList.add("active");
             updateContent();
         }
 
         function updateContent() {
-            document.getElementById('display-year').textContent = currentYear;
-            
-            const data = bioData[currentYear] || { public: "Details for this year are still being written.", private: "" };
-            
-            document.getElementById('public-content').innerHTML = data.public;
-            
-            const privateDiv = document.getElementById('private-content');
-            if (isVipAccess && data.private) {
-                privateDiv.innerHTML = "<strong>Private Entry:</strong><br>" + data.private;
-                privateDiv.classList.add('visible');
+            document.getElementById("display-year").textContent = currentYear;
+            const data = bioData[currentYear] || {
+                public: "Detaily za tento rok sa ešte píšu.",
+                private: "",
+                secret: ""
+            };
+
+            document.getElementById("public-content").textContent = data.public || "";
+
+            const level = Auth.getLevel();
+            const privateDiv = document.getElementById("private-content");
+            const secretDiv = document.getElementById("secret-content");
+            const hint = document.getElementById("locked-hint");
+
+            if (level >= Auth.LEVEL.FRIEND && data.private) {
+                privateDiv.replaceChildren();
+                const label = document.createElement("strong");
+                label.textContent = "Súkromný zápis";
+                privateDiv.appendChild(label);
+                privateDiv.appendChild(document.createElement("br"));
+                privateDiv.appendChild(document.createTextNode(data.private));
+                privateDiv.classList.add("visible");
             } else {
-                privateDiv.classList.remove('visible');
+                privateDiv.classList.remove("visible");
+                privateDiv.replaceChildren();
             }
+
+            if (level >= Auth.LEVEL.LOVE && data.secret) {
+                secretDiv.replaceChildren();
+                const label = document.createElement("strong");
+                label.textContent = "Len pre teba";
+                secretDiv.appendChild(label);
+                secretDiv.appendChild(document.createElement("br"));
+                secretDiv.appendChild(document.createTextNode(data.secret));
+                secretDiv.classList.add("visible");
+            } else {
+                secretDiv.classList.remove("visible");
+                secretDiv.replaceChildren();
+            }
+
+            const hasLocked =
+                (data.private && level < Auth.LEVEL.FRIEND) ||
+                (data.secret && level < Auth.LEVEL.LOVE);
+            hint.hidden = !hasLocked;
+
+            Auth.applyVisibility();
         }
 
-        function checkAccess() {
-            const input = document.getElementById('access-code').value;
-            const statusText = document.getElementById('access-status');
-            
-            if (input === SECRET_PASSWORD) {
-                isVipAccess = true;
-                statusText.textContent = "Authorized";
-                statusText.style.color = "#a8d5ba"; 
-            } else {
-                isVipAccess = false;
-                statusText.textContent = "Guest";
-                statusText.style.color = "white";
-                if(input !== "") alert("Incorrect key.");
-            }
-            updateContent();
-            document.getElementById('access-code').value = ''; 
-        }
+        refreshAuthUI();
     </script>
 </body>
 </html>

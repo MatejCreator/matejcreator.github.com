@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/samurai.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <title>Offline Dino · Matej Palčo</title>
+    <style>
+        :root {
+            --bg: #1a222c;
+            --line: rgba(140, 200, 255, 0.25);
+            --text: #eef3f8;
+            --muted: #a8b6c6;
+            --blue: #8ec8ff;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.85rem;
+            background:
+                radial-gradient(ellipse 60% 40% at 50% 0%, rgba(45, 130, 95, 0.2), transparent 55%),
+                var(--bg);
+            color: var(--text);
+            font-family: "Source Sans 3", sans-serif;
+        }
+        .top {
+            width: min(800px, 94vw);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .back {
+            color: var(--muted);
+            text-decoration: none;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            width: 2.2rem;
+            height: 2.2rem;
+            display: grid;
+            place-items: center;
+        }
+        .back:hover { color: var(--blue); border-color: var(--blue); }
+        .score {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 1.2rem;
+            letter-spacing: 0.06em;
+        }
+        .score span { color: var(--blue); }
+        canvas {
+            display: block;
+            width: min(800px, 94vw);
+            height: auto;
+            background: #dfe7ef;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            touch-action: none;
+        }
+        .hint {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <a class="back" href="../play.html" title="Späť">←</a>
+        <div class="score" id="score">Skóre <span>00000</span> · Rekord <span id="hi">00000</span></div>
+        <span style="width:2.2rem"></span>
+    </div>
+    <canvas id="game" width="800" height="220"></canvas>
+    <p class="hint">Medzerník / ↑ / klik — skok · po páde znova medzerník</p>
+
+    <script>
+        (function () {
+            const canvas = document.getElementById("game");
+            const ctx = canvas.getContext("2d");
+            const scoreEl = document.querySelector("#score span");
+            const hiEl = document.getElementById("hi");
+
+            const W = canvas.width;
+            const H = canvas.height;
+            const GROUND = H - 36;
+            const GRAVITY = 0.72;
+            const JUMP = -12.2;
+
+            let dino = { x: 56, y: GROUND - 44, w: 40, h: 44, vy: 0, onGround: true };
+            let obstacles = [];
+            let clouds = [];
+            let speed = 6;
+            let score = 0;
+            let hi = Number(localStorage.getItem("matej_dino_hi") || 0);
+            let dead = false;
+            let started = false;
+            let spawnTimer = 0;
+            let frame = 0;
+
+            hiEl.textContent = pad(hi);
+
+            function pad(n) {
+                return String(Math.floor(n)).padStart(5, "0");
+            }
+
+            function reset() {
+                dino.y = GROUND - dino.h;
+                dino.vy = 0;
+                dino.onGround = true;
+                obstacles = [];
+                clouds = [
+                    { x: 200, y: 40, s: 0.4 },
+                    { x: 480, y: 28, s: 0.55 },
+                    { x: 700, y: 50, s: 0.35 }
+                ];
+                speed = 6;
+                score = 0;
+                dead = false;
+                started = true;
+                spawnTimer = 70;
+                frame = 0;
+                updateScore();
+            }
+
+            function jump() {
+                if (dead) {
+                    reset();
+                    return;
+                }
+                if (!started) {
+                    reset();
+                    return;
+                }
+                if (dino.onGround) {
+                    dino.vy = JUMP;
+                    dino.onGround = false;
+                }
+            }
+
+            window.addEventListener("keydown", function (e) {
+                if (e.code === "Space" || e.code === "ArrowUp") {
+                    e.preventDefault();
+                    jump();
+                }
+            });
+            canvas.addEventListener("pointerdown", jump);
+
+            function spawnObstacle() {
+                const tall = Math.random() > 0.55;
+                const count = Math.random() > 0.75 ? 2 : 1;
+                const h = tall ? 48 : 32;
+                const w = tall ? 18 : 14;
+                for (let i = 0; i < count; i++) {
+                    obstacles.push({
+                        x: W + 20 + i * (w + 6),
+                        y: GROUND - h,
+                        w: w,
+                        h: h
+                    });
+                }
+            }
+
+            function hit() {
+                const padX = 6;
+                const padY = 4;
+                const dx = dino.x + padX;
+                const dy = dino.y + padY;
+                const dw = dino.w - padX * 2;
+                const dh = dino.h - padY;
+                for (let i = 0; i < obstacles.length; i++) {
+                    const o = obstacles[i];
+                    if (
+                        dx < o.x + o.w &&
+                        dx + dw > o.x &&
+                        dy < o.y + o.h &&
+                        dy + dh > o.y
+                    ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function updateScore() {
+                scoreEl.textContent = pad(score);
+                if (score > hi) {
+                    hi = score;
+                    localStorage.setItem("matej_dino_hi", String(Math.floor(hi)));
+                    hiEl.textContent = pad(hi);
+                }
+            }
+
+            function step() {
+                frame++;
+
+                if (started && !dead) {
+                    dino.vy += GRAVITY;
+                    dino.y += dino.vy;
+                    if (dino.y >= GROUND - dino.h) {
+                        dino.y = GROUND - dino.h;
+                        dino.vy = 0;
+                        dino.onGround = true;
+                    }
+
+                    speed = 6 + Math.min(score / 120, 7);
+                    score += 0.15 + speed * 0.02;
+                    updateScore();
+
+                    spawnTimer--;
+                    if (spawnTimer <= 0) {
+                        spawnObstacle();
+                        spawnTimer = 55 + Math.random() * 70 - Math.min(score / 40, 25);
+                    }
+
+                    for (let i = obstacles.length - 1; i >= 0; i--) {
+                        obstacles[i].x -= speed;
+                        if (obstacles[i].x + obstacles[i].w < -10) obstacles.splice(i, 1);
+                    }
+
+                    clouds.forEach(function (c) {
+                        c.x -= c.s * (speed * 0.25);
+                        if (c.x < -60) {
+                            c.x = W + Math.random() * 100;
+                            c.y = 20 + Math.random() * 50;
+                        }
+                    });
+
+                    if (hit()) {
+                        dead = true;
+                        updateScore();
+                    }
+                }
+
+                draw();
+                requestAnimationFrame(step);
+            }
+
+            function drawDino() {
+                const x = dino.x;
+                const y = dino.y;
+                ctx.fillStyle = "#3a4554";
+                // telo
+                ctx.fillRect(x + 10, y + 14, 22, 22);
+                // hlava
+                ctx.fillRect(x + 22, y, 18, 16);
+                // oko
+                ctx.fillStyle = "#dfe7ef";
+                ctx.fillRect(x + 32, y + 4, 4, 4);
+                ctx.fillStyle = "#3a4554";
+                // chvost
+                ctx.fillRect(x, y + 18, 12, 8);
+                // nohy (bežiaca animácia)
+                if (dino.onGround && started && !dead) {
+                    const leg = Math.floor(frame / 6) % 2;
+                    ctx.fillRect(x + 12, y + 34, 8, 10);
+                    ctx.fillRect(x + 24 + (leg ? 2 : -2), y + 34, 8, 10);
+                } else {
+                    ctx.fillRect(x + 12, y + 34, 8, 10);
+                    ctx.fillRect(x + 24, y + 34, 8, 10);
+                }
+            }
+
+            function drawCactus(o) {
+                ctx.fillStyle = "#2d8a62";
+                ctx.fillRect(o.x + o.w * 0.3, o.y, o.w * 0.4, o.h);
+                ctx.fillRect(o.x, o.y + o.h * 0.3, o.w * 0.35, o.w * 0.35);
+                ctx.fillRect(o.x, o.y + o.h * 0.3, o.w * 0.2, o.h * 0.35);
+                ctx.fillRect(o.x + o.w * 0.65, o.y + o.h * 0.45, o.w * 0.35, o.w * 0.35);
+                ctx.fillRect(o.x + o.w * 0.8, o.y + o.h * 0.45, o.w * 0.2, o.h * 0.28);
+            }
+
+            function draw() {
+                // obloha
+                ctx.fillStyle = "#dfe7ef";
+                ctx.fillRect(0, 0, W, H);
+
+                // mraky
+                ctx.fillStyle = "#c5d0db";
+                clouds.forEach(function (c) {
+                    ctx.beginPath();
+                    ctx.ellipse(c.x, c.y, 28, 12, 0, 0, Math.PI * 2);
+                    ctx.ellipse(c.x + 18, c.y + 2, 20, 10, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // zem
+                ctx.strokeStyle = "#3a4554";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, GROUND);
+                ctx.lineTo(W, GROUND);
+                ctx.stroke();
+
+                // bodky na zemi
+                ctx.fillStyle = "#9aa8b8";
+                for (let i = 0; i < 12; i++) {
+                    const gx = ((i * 90 - (frame * speed * 0.4)) % (W + 90) + W + 90) % (W + 90) - 20;
+                    ctx.fillRect(gx, GROUND + 8, 16 + (i % 3) * 6, 2);
+                }
+
+                obstacles.forEach(drawCactus);
+                drawDino();
+
+                if (!started || dead) {
+                    ctx.fillStyle = "rgba(223, 231, 239, 0.55)";
+                    ctx.fillRect(0, 0, W, H);
+                    ctx.fillStyle = "#3a4554";
+                    ctx.font = "600 22px 'Source Sans 3', sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.fillText(
+                        dead ? "Game over — medzerník / klik" : "Medzerník / klik — štart",
+                        W / 2,
+                        H / 2
+                    );
+                }
+            }
+
+            draw();
+            step();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/style_projects.css">
+    <link rel="icon" href="images/samurai.png" type="image/png">
+    <title>Projekty · Matej Palčo</title>
+</head>
+<body>
+    <a class="home-btn" href="index.html" title="Domov">←</a>
+
+    <section class="projects-grid" id="projects-grid" aria-label="Projekty"></section>
+
+    <footer>
+        <p>&copy; Matej Palčo · MatejCreator</p>
+    </footer>
+
+    <script>
+        function cubeHTML(seed) {
+            return (
+                '<div class="cube-scene">' +
+                '<div class="project-cube" data-seed="' + seed + '" aria-hidden="true">' +
+                '<div class="face f-front"></div>' +
+                '<div class="face f-back"></div>' +
+                '<div class="face f-right"></div>' +
+                '<div class="face f-left"></div>' +
+                '<div class="face f-top"></div>' +
+                '<div class="face f-bottom"></div>' +
+                "</div></div>"
+            );
+        }
+
+        function applyCubeSpin(cube, seed) {
+            const names = ["spinA", "spinB", "spinC"];
+            const dur = 8 + ((seed * 37) % 12);
+            const dir = seed % 2 === 0 ? "reverse" : "normal";
+            cube.style.animation = "none";
+            void cube.offsetWidth;
+            cube.style.animationName = names[seed % 3];
+            cube.style.animationDuration = dur + "s";
+            cube.style.animationTimingFunction = "linear";
+            cube.style.animationIterationCount = "infinite";
+            cube.style.animationDirection = dir;
+            cube.style.animationPlayState = "running";
+        }
+
+        function renderProjects(list) {
+            const grid = document.getElementById("projects-grid");
+            grid.innerHTML = "";
+
+            list.forEach(function (item, index) {
+                const seed = index + 1;
+                const article = document.createElement("article");
+                article.className = "project-card";
+                if (item.id) article.dataset.id = item.id;
+
+                const visual = document.createElement("div");
+                visual.className = "project-visual";
+
+                if (item.photo) {
+                    const img = document.createElement("img");
+                    img.src = item.photo;
+                    img.alt = item.title || "";
+                    img.loading = "lazy";
+                    img.addEventListener("error", function () {
+                        visual.innerHTML = cubeHTML(seed);
+                        applyCubeSpin(visual.querySelector(".project-cube"), seed);
+                    });
+                    visual.appendChild(img);
+                } else {
+                    visual.innerHTML = cubeHTML(seed);
+                    applyCubeSpin(visual.querySelector(".project-cube"), seed);
+                }
+
+                const h2 = document.createElement("h2");
+                h2.textContent = item.title || "Bez názvu";
+
+                const p = document.createElement("p");
+                p.textContent = item.description || "";
+
+                article.appendChild(visual);
+                article.appendChild(h2);
+                article.appendChild(p);
+
+                if (item.tags && item.tags.length) {
+                    const tags = document.createElement("div");
+                    tags.className = "project-tags";
+                    item.tags.forEach(function (t) {
+                        const span = document.createElement("span");
+                        span.textContent = t;
+                        tags.appendChild(span);
+                    });
+                    article.appendChild(tags);
+                }
+
+                const linkList = item.links || [];
+                if (linkList.length) {
+                    const links = document.createElement("div");
+                    links.className = "project-links";
+                    linkList.forEach(function (link) {
+                        const a = document.createElement("a");
+                        a.href = link.url || "#";
+                        a.textContent = link.label || "Link";
+                        if (/^https?:/i.test(link.url || "")) {
+                            a.target = "_blank";
+                            a.rel = "noopener noreferrer";
+                        }
+                        links.appendChild(a);
+                    });
+                    article.appendChild(links);
+                }
+
+                grid.appendChild(article);
+            });
+        }
+
+        fetch("data/projects.json")
+            .then(function (r) {
+                if (!r.ok) throw new Error("load failed");
+                return r.json();
+            })
+            .then(renderProjects)
+            .catch(function () {
+                document.getElementById("projects-grid").innerHTML =
+                    "<p class='load-error'>Nepodarilo sa načítať data/projects.json. Otvor stránku cez lokálny server.</p>";
+            });
+    </script>
+</body>
+</html>

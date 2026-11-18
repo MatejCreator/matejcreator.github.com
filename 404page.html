@@ -1,15 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/samurai.png" type="images/x-icon">
+    <link rel="icon" href="images/samurai.png" type="image/png">
     <link rel="stylesheet" href="styles/404.css">
-    <script src="https://kit.fontawesome.com/e5ddeaf40b.js" crossorigin="anonymous"></script>
-    <title>About . Matej Palčo</title>
+    <title>404 · Matej Palčo</title>
 </head>
-
 <body>
-    <div>404</div>
+    <div class="code" title="404">404</div>
+    <div class="fx" id="fx" aria-hidden="true"></div>
+    <script>
+        (function () {
+            const fx = document.getElementById("fx");
+            const CODES = ["404", "403", "500", "502", "503", "??? ", "NULL", "ERR", "0x0", "418", "666", "¿¿¿"];
+
+            const patterns = [
+                function rgbSplit() {
+                    fx.className = "fx on rgb";
+                },
+                function scanlines() {
+                    fx.className = "fx on scan";
+                },
+                function shake() {
+                    fx.className = "fx on shake";
+                    document.body.classList.add("body-shake");
+                    setTimeout(function () {
+                        document.body.classList.remove("body-shake");
+                    }, 380);
+                },
+                function invertFlash() {
+                    fx.className = "fx on invert";
+                },
+                function codeRain() {
+                    fx.className = "fx on codes";
+                    fx.innerHTML = "";
+                    const n = 5 + Math.floor(Math.random() * 6);
+                    for (let i = 0; i < n; i++) {
+                        const span = document.createElement("span");
+                        span.className = "ghost-code";
+                        span.textContent = CODES[Math.floor(Math.random() * CODES.length)];
+                        span.style.left = Math.random() * 85 + "%";
+                        span.style.top = Math.random() * 80 + "%";
+                        span.style.fontSize = 28 + Math.random() * 72 + "px";
+                        span.style.animationDelay = Math.random() * 0.15 + "s";
+                        fx.appendChild(span);
+                    }
+                },
+                function tear() {
+                    fx.className = "fx on tear";
+                },
+                function noise() {
+                    fx.className = "fx on noise";
+                }
+            ];
+
+            function clearFx() {
+                fx.className = "fx";
+                fx.innerHTML = "";
+            }
+
+            function runRandom() {
+                clearFx();
+                const fn = patterns[Math.floor(Math.random() * patterns.length)];
+                fn();
+                const life = 280 + Math.random() * 320;
+                setTimeout(clearFx, life);
+            }
+
+            // Nezávislé timery — častejšie, rôzne rytmy
+            function loopA() {
+                setTimeout(function () {
+                    runRandom();
+                    loopA();
+                }, 2200 + Math.random() * 3500);
+            }
+            function loopB() {
+                setTimeout(function () {
+                    runRandom();
+                    loopB();
+                }, 4000 + Math.random() * 5000);
+            }
+            function loopC() {
+                setTimeout(function () {
+                    if (Math.random() > 0.35) runRandom();
+                    loopC();
+                }, 1500 + Math.random() * 2500);
+            }
+
+            loopA();
+            loopB();
+            setTimeout(loopC, 800);
+        })();
+    </script>
 </body>
 </html>

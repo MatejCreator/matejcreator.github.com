@@ -1,0 +1,63 @@
+[
+    {
+        "id": "site",
+        "title": "Osobná stránka",
+        "description": "HTML, CSS a JS bez frameworku — hero, menu a skryté veci.",
+        "photo": null,
+        "links": [
+            { "label": "Otvoriť", "url": "index.html" },
+            { "label": "GitHub", "url": "https://github.com/MatejCreator" }
+        ],
+        "tags": ["web"]
+    },
+    {
+        "id": "autobiography",
+        "title": "Autobiografia",
+        "description": "Časová os rokov s úrovňami prístupu a JSON textami.",
+        "photo": null,
+        "links": [
+            { "label": "Otvoriť", "url": "autobiography.html" }
+        ],
+        "tags": ["web"]
+    },
+    {
+        "id": "placeholder-1",
+        "title": "Ďalší projekt",
+        "description": "Placeholder — doplň v projects.json názov, popis, photo a linky.",
+        "photo": null,
+        "links": [
+            { "label": "Čoskoro", "url": "404page.html" }
+        ],
+        "tags": []
+    },
+    {
+        "id": "game",
+        "title": "Hra / experiment",
+        "description": "Miesto pre ďalšiu hru alebo školský projekt.",
+        "photo": null,
+        "links": [
+            { "label": "Play", "url": "play.html" }
+        ],
+        "tags": ["game"]
+    },
+    {
+        "id": "cv",
+        "title": "Computer vision",
+        "description": "Školské a side veci okolo spracovania obrazu.",
+        "photo": null,
+        "links": [
+            { "label": "Čoskoro", "url": "404page.html" }
+        ],
+        "tags": ["school"]
+    },
+    {
+        "id": "slot",
+        "title": "Experiment",
+        "description": "Voľný slot na ďalší nápad.",
+        "photo": null,
+        "links": [
+            { "label": "Čoskoro", "url": "404page.html" }
+        ],
+        "tags": []
+    }
+]

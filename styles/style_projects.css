@@ -1,0 +1,242 @@
+:root {
+    --bg: #0a0c0f;
+    --bg-elevated: #12161c;
+    --border: rgba(120, 192, 255, 0.18);
+    --border-strong: rgba(120, 192, 255, 0.4);
+    --text: #e8eef5;
+    --text-muted: #9aa8b8;
+    --blue: #78c0ff;
+    --font-display: "Eagle Lake", "Segoe UI", sans-serif;
+    --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse 60% 40% at 80% -10%, rgba(27, 73, 101, 0.2), transparent 55%),
+        var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+}
+
+a {
+    color: var(--blue);
+    text-decoration: none;
+}
+
+.home-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 20;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(10, 12, 15, 0.75);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.home-btn:hover {
+    color: var(--blue);
+    border-color: var(--border-strong);
+}
+
+.projects-grid {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    padding: 4.5rem 0 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.project-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    transition: border-color 0.2s ease;
+}
+
+.project-card:hover {
+    border-color: var(--border-strong);
+}
+
+.project-visual {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.28);
+    overflow: visible;
+}
+
+.project-visual img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/*
+  DÔLEŽITÉ: opacity / filter / backdrop-filter na elemente s
+  transform-style: preserve-3d spľacia 3D na flat (jedna stena).
+*/
+.cube-scene {
+    width: 80px;
+    height: 80px;
+    perspective: 600px;
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+}
+
+.project-cube {
+    width: 52px;
+    height: 52px;
+    position: relative;
+    margin: 14px auto;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    animation: spinA 11s linear infinite;
+}
+
+.project-cube .face {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    left: 0;
+    top: 0;
+    border: 1px solid rgba(150, 210, 255, 0.7);
+    border-radius: 3px;
+    background: rgba(90, 160, 220, 0.55);
+    /* skryť zadnú stranu steny = pevná kocka, nie drôtový model */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.project-card:hover .project-cube .face {
+    background: rgba(110, 180, 240, 0.7);
+    border-color: rgba(200, 230, 255, 0.95);
+}
+
+.project-cube .f-front  { transform: rotateY(0deg) translateZ(26px); background: rgba(120, 192, 255, 0.6); }
+.project-cube .f-back   { transform: rotateY(180deg) translateZ(26px); background: rgba(70, 130, 190, 0.55); }
+.project-cube .f-right  { transform: rotateY(90deg) translateZ(26px); background: rgba(100, 170, 230, 0.55); }
+.project-cube .f-left   { transform: rotateY(-90deg) translateZ(26px); background: rgba(80, 150, 210, 0.55); }
+.project-cube .f-top    { transform: rotateX(90deg) translateZ(26px); background: rgba(55, 150, 110, 0.6); border-color: rgba(120, 200, 160, 0.7); }
+.project-cube .f-bottom { transform: rotateX(-90deg) translateZ(26px); background: rgba(40, 100, 80, 0.55); }
+
+.project-card:hover .project-cube .f-top {
+    background: rgba(70, 170, 130, 0.75);
+}
+
+@keyframes spinA {
+    from { transform: rotateX(35deg) rotateY(35deg); }
+    to   { transform: rotateX(395deg) rotateY(395deg); }
+}
+
+@keyframes spinB {
+    from { transform: rotateX(-20deg) rotateY(50deg); }
+    to   { transform: rotateX(340deg) rotateY(410deg); }
+}
+
+@keyframes spinC {
+    from { transform: rotateX(45deg) rotateY(-25deg) rotateZ(10deg); }
+    to   { transform: rotateX(-315deg) rotateY(335deg) rotateZ(370deg); }
+}
+
+.project-card h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.project-card p {
+    margin: 0;
+    color: var(--text-muted);
+    flex: 1;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.project-tags span {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.5rem;
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.project-links a {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+}
+
+.project-links a:hover {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+}
+
+.load-error {
+    grid-column: 1 / -1;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 1.5rem 1rem 2rem;
+}
+
+footer p {
+    margin: 0;
+    color: var(--text-muted);
+    opacity: 0.65;
+    font-size: 0.88rem;
+}
+
+@media (max-width: 900px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding-top: 4rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
+}
